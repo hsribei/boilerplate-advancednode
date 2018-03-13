@@ -8,7 +8,8 @@
   "description": "FCC Advanced Node project",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "develop": "nodemon --inspect server.js"
   },
   "dependencies": {
     "express": "^4.16.3",
@@ -24,6 +25,13 @@
     "type": "git",
     "url": "https://hyperdev.com/#!/project/welcome-project"
   },
-  "keywords": ["node", "hyperdev", "express"],
-  "license": "MIT"
+  "keywords": [
+    "node",
+    "hyperdev",
+    "express"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.17.1"
+  }
 }
