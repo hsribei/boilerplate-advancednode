@@ -21,7 +21,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.route("/").get((req, res) => {
-  res.render(process.cwd() + "/views/pug/index.pug");
+  res.render(process.cwd() + "/views/pug/index.pug", {
+    title: "Hello",
+    message: "Please login"
+  });
 });
 
 const port = process.env.PORT || 3000;
