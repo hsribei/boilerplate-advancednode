@@ -6,6 +6,12 @@ const fccTesting = require("./freeCodeCamp/fcctesting.js");
 
 const app = express();
 
+// Pretty logging when in dev
+if (process.env.NODE_ENV === "development") {
+  const morgan = require("morgan");
+  app.use(morgan("dev"));
+}
+
 app.set("view engine", "pug");
 
 fccTesting(app); //For FCC testing purposes
