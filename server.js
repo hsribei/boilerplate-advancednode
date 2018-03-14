@@ -10,6 +10,7 @@ const mongo = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 const LocalStrategy = require("passport-local");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const app = express();
 let db;
@@ -49,7 +50,7 @@ passport.use(
         done(err);
       } else if (!user) {
         done(null, false, { message: "User not found." });
-      } else if (password !== user.password) {
+      } else if (!bcrypt.compareSync(password, user.password)) {
         done(null, false, { message: "Wrong password." });
       } else {
         return done(null, user);
@@ -93,18 +94,19 @@ app.post(
         } else if (user) {
           res.redirect("/");
         } else {
-          db
-            .collection("users")
-            .insertOne(
-              { username: req.body.username, password: req.body.password },
-              (err, savedUser) => {
-                if (err) {
-                  res.redirect("/");
-                } else {
-                  next(null, savedUser);
-                }
+          db.collection("users").insertOne(
+            {
+              username: req.body.username,
+              password: bcrypt.hashSync(req.body.password, 12)
+            },
+            (err, savedUser) => {
+              if (err) {
+                res.redirect("/");
+              } else {
+                next(null, savedUser);
               }
-            );
+            }
+          );
         }
       });
   },
